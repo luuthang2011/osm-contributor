@@ -45,7 +45,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'com.android.tools.build:gradle:3.1.4'
         classpath "io.fabric.tools:gradle:1.+"
     }
 }
@@ -71,15 +71,20 @@ apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'ossssm'
+            keyPassword 'fimo!54321'
+            storeFile file('F:/Code/openstreetmap/android-key/ossssm.jks')
+            storePassword 'fimo!54321'
+        }
+    }
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
-
     useLibrary 'org.apache.http.legacy'
-
     lintOptions {
         abortOnError false
     }
-
     defaultConfig {
         applicationId "io.jawg.osmcontributor"
         minSdkVersion 16
@@ -89,28 +94,26 @@ android {
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
-
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            buildConfigField "String", "BASE_OSM_URL", '"https://www.openstreetmap.org/api/0.6/"'
+//            buildConfigField "String", "BASE_OSM_URL", '"https://www.openstreetmap.org/api/0.6/"'
+            buildConfigField "String", "BASE_OSM_URL", '"http://osm.fimo.edu.vn/api/0.6/"'
+            signingConfig signingConfigs.config
         }
-
         debug {
             versionNameSuffix ".debug-3"
-            buildConfigField "String", "BASE_OSM_URL", '"https://www.openstreetmap.org/api/0.6/"'
+//            buildConfigField "String", "BASE_OSM_URL", '"https://www.openstreetmap.org/api/0.6/"'
+            buildConfigField "String", "BASE_OSM_URL", '"http://osm.fimo.edu.vn/api/0.6/"'
+            signingConfig signingConfigs.config
         }
     }
-
     flavorDimensions "default"
-
     productFlavors {
         store {
             applicationId "io.mapsquare.osmcontributor"
@@ -161,7 +164,6 @@ android {
             buildConfigField "String", "AUTO_COMMIT_CHANGESET", '"Edited bus stop(s)"'
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -175,6 +177,7 @@ configurations {
 }
 
 dependencies {
+
     // Android
     implementation "com.android.support:multidex:$multidexSupportVersion"
     implementation "com.android.support:appcompat-v7:$androidSupportVersion"
@@ -186,6 +189,7 @@ dependencies {
     // Dependency injection
     implementation "com.google.dagger:dagger:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+
     // Required for part of the generated code
     compileOnly "org.glassfish:javax.annotation:$javaxAnnotationVersion"
 
@@ -200,7 +204,6 @@ dependencies {
     implementation "org.greenrobot:eventbus:$eventbusVersion"
     implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
     implementation "joda-time:joda-time:$jodatimeVersion"
-
     implementation "com.google.android.gms:play-services-analytics:$playServicesVersion"
 
     // network
@@ -225,7 +228,6 @@ dependencies {
     implementation "com.flickr4java:flickr4java:$flickr4javaVersion"
     implementation "com.github.scribejava:scribejava-apis:$scribeJavaVersion"
     implementation 'info.guardianproject.netcipher:netcipher:1.2'
-
     implementation("com.mapbox.mapboxsdk:mapbox-android-sdk:$mapboxVersion@aar") {
         transitive = true
         exclude group: 'com.google.guava', module: 'guava'
@@ -234,11 +236,8 @@ dependencies {
         transitive = true
     }
     implementation "de.psdev.licensesdialog:licensesdialog:$licensesdialogVersion"
-
     implementation "com.facebook.stetho:stetho:$stethoVersion"
-
     implementation "com.firebase:firebase-jobdispatcher:$firebaseJobDispatcherVersion"
-
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation 'org.easytesting:fest-assert-core:2.0M10'
