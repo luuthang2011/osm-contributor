@@ -3,6 +3,9 @@ flickr_token / flickr_token_secret
 
 flickr_api_key / flickr_api_secret
     https://www.flickr.com/services/apps/by/96467624@N04
+    
+mapbox
+    https://www.mapbox.com/account/access-tokens
 
 build.gradle
     applicationId
