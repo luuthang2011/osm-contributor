@@ -138,10 +138,8 @@ android {
             buildConfigField "String", "MAPBOX_TOKEN", '"' + loadPropertiesFile("conf.properties").getProperty("mapbox_token") + '"'
             buildConfigField "String", "AUTO_COMMIT_CHANGESET", '""'
         }
-
         bus {
             applicationId "io.jawg.osmcontributor.bus"
-
             buildConfigField "String", "APP_NAME", '"Jungle Bus"'
             buildConfigField "String", "CRASHLYTICS_PACKAGE_NAME", '"io.jawg.osmcontributor.store"'
             buildConfigField "int", "MAX_POIS_ON_MAP", "300"
